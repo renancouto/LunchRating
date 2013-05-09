@@ -3,10 +3,12 @@
 @import '../_shared/_';
 
 // Fonts
+@include font-face($f-icons, $p-fonts + 'lunchratings-ui');
 
 // Imports
 @import
 	'reset/_',
 	'helpers/_',
+	'structure/_',
 	'ui/_',
-	'structure/_';
+	'asset/_';

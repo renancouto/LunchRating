@@ -1,0 +1,15 @@
+[class*="icon-"]:before {
+	font-family: $f-icons;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+.icon-star:before { content: "\e000"; }
+.icon-food:before { content: "\e001"; }
+.icon-user:before { content: "\e002"; }
+.icon-exit:before { content: "\e003"; }

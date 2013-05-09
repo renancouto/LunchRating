@@ -16,36 +16,46 @@
 </head>
 <body>
 <div class="structure-wrapper width-limiter">
+<div class="inner">
 <header class="structure-header group">
-	<h1 class="logo">Lunch Rating</h1>
+	<h1 class="logo">
+		<i class="icon-star"></i>
+		<i class="icon-food"></i>
+		Lunch Rating
+	</h1>
 	<div class="user">
-		<p class="greeting">Olá, <span id="username" class="name"></span></p>
-		<span id="logout" class="sign-out">Sair</span>
+		<span class="greeting">Olá,<br><span id="username" class="name"></span></span>
+		<span id="logout" class="sign-out icon-exit">Sair</span>
 	</div>
 </header>
 <section class="structure-content">
 	<form class="ui-form blocked">
-	<h2 class="heading">Log In</h2>
+	<h2 class="heading">Entre e avalie</h2>
 
 	<div class="ui-field-group">
-		<input type="text" placeholder="Email" title="Digite seu email" class="ui-field email" required>
+		<input type="text" name="email" placeholder="Email" title="Digite seu email" class="ui-field email" required>
 	</div>
 
 	<div class="ui-field-group">
-		<input type="password" placeholder="Senha" title="Digite sua senha" class="ui-field" required
-		>
+		<input type="password" name="password" placeholder="Senha" title="Digite sua senha" class="ui-field" required>
 	</div>
 
 	<div class="ui-field-group control">
-		<button class="ui-button">Log In</button>
+		<button class="ui-button">Entre</button>
 	</div>
 </form>
-<form class="signup-form">
-	<h2>Cadastre-se</h2>
+<form class="ui-form blocked signup-form">
+	<h2 class="heading">ou cadastre-se</h2>
 
 	<div class="ui-field-group">
-		<input type="text" placeholder="Email" title="Digite seu email" class="ui-field email" required>
-		<input type="password" placeholder="Senha" title="Digite uma senha" class="ui-field" required>
+		<input type="text" name="email" placeholder="Email" title="Digite seu email" class="ui-field email" required>
+	</div>
+
+	<div class="ui-field-group">
+		<input type="password" name="password" placeholder="Senha" title="Digite sua senha" class="ui-field" required>
+	</div>
+
+	<div class="ui-field-group control">
 		<button class="ui-button">Cadastre-se</button>
 	</div>
 </form>
@@ -62,6 +72,7 @@
 
 <script src="js/core/app.js"></script>
 <script>LunchRating.init();</script>
+</div>
 </div>
 </body>
 </html>

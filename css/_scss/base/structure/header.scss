@@ -1,26 +1,59 @@
 .structure-header {
-	border-bottom: 3px solid shade($c-orange, 50);
-	color: shade($c-orange, 50);
+	$c: #19b319;
+	border-bottom: 1px solid shade($c, 40);
+	border-radius: $u*2 $u*2 0 0;
+	color: #fff;
 	margin-bottom: $u*3;
+	padding: $u*4;
+	position: relative;
+	@include linear-gradient($c, shade($c, 25));
 
-	&:after {
-		content: '';
-		border-bottom: 1px solid rgba(255,255,255,.5);
-		display: block;
-		position: relative;
-		bottom: -4px;
-	}
+	$l: $u*2;
 
 	.logo {
 		font-size: 30px;
 		font-weight: 900;
 		float: left;
-		text-shadow: 0 1px 0 rgba(255,255,255,.5);
+		margin-left: $l + $u*10;
+		text-shadow:
+			0 1px 0 shade($c, 20),
+			0 2px 0 shade($c, 25),
+			0 3px 0 shade($c, 30),
+			0 4px 5px rgba(0,0,0,.5);
+	}
+
+	.icon-food,
+	.icon-star { position: absolute; }
+
+	.icon-star {
+		font-size: 46px;
+		left: $l + 2;
+		bottom: $u + 2;
+	}
+
+	.icon-food {
+		color: shade($c, 15);
+		font-size: 18px;
+		left: $l + 15px;
+		bottom: 21px;
+		text-shadow: none;
 	}
 
 	.user {
+		margin-top: $u*2;
 		float: right;
 		text-align: right;
+		text-shadow: 0 1px 1px rgba(0,0,0,.2);
+	}
+
+	.sign-out {
+		@include hide-text;
+
+		&:before {
+			font-size: 10px;
+			color: #fff;
+			text-shadow: 0 1px 1px rgba(0,0,0,.2);
+		}
 	}
 
 	.name {

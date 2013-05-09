@@ -2,7 +2,7 @@
 	$c: shade($c-orange, 20);
 	border-top: 1px dotted $c;
 	color: $c;
-	margin-top: $u*6;
-	padding-top: $u*2;
+	margin: $u*6 $u*4 0;
+	padding: $u*2 0;
 	text-align: center;
 }
