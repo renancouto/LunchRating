@@ -1,0 +1,8 @@
+.footer-main {
+	$c: shade($c-orange, 20);
+	border-top: 1px dotted $c;
+	color: $c;
+	margin-top: $u*6;
+	padding-top: $u*2;
+	text-align: center;
+}

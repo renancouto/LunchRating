@@ -1,0 +1,24 @@
+.ui-field-group {
+	.ui-form.inline & {
+		@include clearfix;
+
+		.ui-field, .ui-button {
+			border-radius: 0;
+			float: left;
+			margin-left: -1px;
+
+			&:first-child {
+				border-radius: $u 0 0 $u;
+				margin-left: 0;
+			}
+
+			&:last-child { border-radius: 0 $u $u 0; }
+		}
+	}
+
+	.ui-form.blocked & {
+		margin-top: $u;
+	}
+
+	&.control { text-align: right; }
+}

@@ -1,0 +1,25 @@
+.group { @include clearfix; }
+
+.width-limiter {
+	margin: 0 auto;
+	width: $full-width;
+}
+
+.width-constrainer { @include box-sizing(border-box); }
+
+.inline-middle {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.inline-top {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.tt-u { text-transform: uppercase; }
+
+.f-l { float: left; }
+.f-r { float: right; }
+
+.hide { display: none; }

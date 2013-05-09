@@ -1,0 +1,29 @@
+.structure-header {
+	border-bottom: 3px solid shade($c-orange, 50);
+	color: shade($c-orange, 50);
+	margin-bottom: $u*3;
+
+	&:after {
+		content: '';
+		border-bottom: 1px solid rgba(255,255,255,.5);
+		display: block;
+		position: relative;
+		bottom: -4px;
+	}
+
+	.logo {
+		font-size: 30px;
+		font-weight: 900;
+		float: left;
+		text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	}
+
+	.user {
+		float: right;
+		text-align: right;
+	}
+
+	.name {
+		color: #000;
+	}
+}

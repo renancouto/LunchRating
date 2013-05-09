@@ -1,0 +1,11 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/<%= it.app.source.js.jquery %>/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/lib/jquery-<%= it.app.source.js.jquery %>.min.js"><\/script>')</script>
+
+<script src="http://www.parsecdn.com/js/parse-<%= it.app.source.js.parse %>.min.js"></script>
+
+<% _.each(it.view.source.js.body.custom, function(item){ %>
+<script src="js/<%= item %>"></script>
+<% }) %>
+
+<script src="js/core/app.js"></script>
+<script>LunchRating.init();</script>

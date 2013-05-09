@@ -1,0 +1,28 @@
+.ui-button {
+	border: 1px solid;
+	border-radius: $u;
+	box-shadow:
+		0 1px 0 rgba(0,0,0,.1),
+		0 1px 4px rgba(0,0,0,.2),
+		inset 0 -1px 0 rgba(0,0,0,.15),
+		inset 0 1px 0 rgba(255,255,255,.3);
+	color: #fff;
+	font-family: $f-sans;
+	padding: $u + $u/2 $u*2;
+	text-shadow: 0 1px 0 rgba(0,0,0,.5);
+
+	@mixin color($color) {
+		border-color: shade($color, 35);
+		@include linear-gradient($color, shade($color, 20));
+
+		&:hover {
+			@include linear-gradient(tint($color, 5), shade($color, 10));
+		}
+	}
+
+	@mixin type($type, $color) {
+		&.#{$type} { @include color($color); }
+	}
+
+	@include color(#43b101);
+}

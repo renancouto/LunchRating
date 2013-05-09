@@ -1,0 +1,18 @@
+.ui-field {
+	background: shade(#fff, 5);
+	border: 1px solid shade(#fff, 50);
+	border-radius: $u;
+	box-shadow:
+		0 1px 0 rgba(0,0,0,.1),
+		0 1px 4px rgba(0,0,0,.2),
+		inset 0 -1px 0 rgba(0,0,0,.15),
+		inset 0 1px 0 rgba(255,255,255,.3);
+	font-family: $f-sans;
+	padding: $u + $u/2;
+	position: relative;
+
+	&:hover, &:focus {
+		background: #fff;
+		z-index: 1;
+	}
+}

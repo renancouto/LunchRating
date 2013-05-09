@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Lunch Rating - Avalie seu almoço</title>
+	<meta name="description" content="Avalie a qualidade do seu almoço">
+	<meta name="viewport" content="width=device-width">
+
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,900,400italic,900italic' rel='stylesheet'>
+	
+	<link rel="stylesheet" href="css/base.css">
+	
+
+	<script src="js/lib/modernizr-2.6.2.min.js"></script>
+<script>var LunchRating = {};</script>
+</head>
+<body>
+<div class="structure-wrapper width-limiter">
+<header class="structure-header group">
+	<h1 class="logo">Lunch Rating</h1>
+	<div class="user">
+		<p class="greeting">Olá, <span id="username" class="name"></span></p>
+		<span id="logout" class="sign-out">Sair</span>
+	</div>
+</header>
+<section class="structure-content">
+	<form class="ui-form blocked">
+	<h2 class="heading">Log In</h2>
+
+	<div class="ui-field-group">
+		<input type="text" placeholder="Email" title="Digite seu email" class="ui-field email" required>
+	</div>
+
+	<div class="ui-field-group">
+		<input type="password" placeholder="Senha" title="Digite sua senha" class="ui-field" required
+		>
+	</div>
+
+	<div class="ui-field-group control">
+		<button class="ui-button">Log In</button>
+	</div>
+</form>
+<form class="signup-form">
+	<h2>Cadastre-se</h2>
+
+	<div class="ui-field-group">
+		<input type="text" placeholder="Email" title="Digite seu email" class="ui-field email" required>
+		<input type="password" placeholder="Senha" title="Digite uma senha" class="ui-field" required>
+		<button class="ui-button">Cadastre-se</button>
+	</div>
+</form>
+</section>
+<footer class="footer-main">
+	<p class="legal">2013 - Renan Couto</p>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/lib/jquery-1.9.1.min.js"><\/script>')</script>
+
+<script src="http://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
+
+
+
+<script src="js/core/app.js"></script>
+<script>LunchRating.init();</script>
+</div>
+</body>
+</html>
