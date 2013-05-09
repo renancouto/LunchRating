@@ -23,13 +23,13 @@
 		<i class="icon-food"></i>
 		Lunch Rating
 	</h1>
-	<div class="user">
-		<span class="greeting">Olá,<br><span id="username" class="name"></span></span>
+	<div class="user" id="username">
+		<span class="greeting">Olá,<br><span class="name"></span></span>
 		<span id="logout" class="sign-out icon-exit">Sair</span>
 	</div>
 </header>
 <section class="structure-content">
-	<form class="ui-form blocked">
+	<form class="ui-form blocked" id="login-form">
 	<h2 class="heading">Entre e avalie</h2>
 
 	<div class="ui-field-group">
@@ -44,7 +44,7 @@
 		<button class="ui-button">Entre</button>
 	</div>
 </form>
-<form class="ui-form blocked signup-form">
+<form class="ui-form blocked signup-form" id="signup-form">
 	<h2 class="heading">ou cadastre-se</h2>
 
 	<div class="ui-field-group">

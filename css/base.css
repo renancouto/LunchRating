@@ -77,10 +77,9 @@ body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, 
 .structure-header .icon-food, .structure-header .icon-star { position: absolute; }
 .structure-header .icon-star { font-size: 46px; left: 10px; bottom: 6px; }
 .structure-header .icon-food { color: #159815; font-size: 18px; left: 23px; bottom: 21px; text-shadow: none; }
-.structure-header .user { margin-top: 8px; float: right; text-align: right; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
+.structure-header .user { display: none; margin-top: 8px; float: right; text-align: right; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
 .structure-header .sign-out { color: transparent; font: 0/0 a; text-shadow: none; }
 .structure-header .sign-out:before { font-size: 10px; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
-.structure-header .name { color: #000; }
 
 .structure-content { padding: 16px 32px; }
 

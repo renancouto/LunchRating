@@ -40,6 +40,7 @@
 	}
 
 	.user {
+		display: none;
 		margin-top: $u*2;
 		float: right;
 		text-align: right;
@@ -54,9 +55,5 @@
 			color: #fff;
 			text-shadow: 0 1px 1px rgba(0,0,0,.2);
 		}
-	}
-
-	.name {
-		color: #000;
 	}
 }
