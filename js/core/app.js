@@ -16,7 +16,7 @@ LunchRating.userSetup = function UserSetup () {
 		$('#username')
 			.show()
 			.find('.name')
-				.html(LunchRating.user.attributes.username);
+				.html(LunchRating.user.attributes.username.split('@')[0]);
 
 		$('#logout').on('click', function(){
 			Parse.User.logOut();
@@ -38,20 +38,34 @@ LunchRating.userSetup = function UserSetup () {
 	logIn = function logInF (email, password) {
 		Parse.User.logIn(email, password, {
 			success: function(user) {
-				console.log(user);
+				// console.log(user);
+				apply();
 			},
 
 			error: function(user, error) {
-				console.error(user, error);
+				// console.error(user, error);
+				feedback($loginForm, 'Combinação de login/senha incorretos');
 			}
 		});
-	};
+	},
 
-	$('#login-form').on('submit', function(e){
+	feedback = function feedbackF ($el, msg) {
+		var $feedback = $el.find('.feedback').hide();
+
+		if (!msg) return;
+
+		$feedback
+			.addClass('error')
+			.show()
+			.html(msg);
+	},
+
+	$loginForm = $('#login-form').on('submit', function(e){
 		e.preventDefault();
 		var $this = $(this),
 			$input = $this.find('input');
 
+		feedback($this);
 		logIn($input.filter('[name=email]').val(), $input.filter('[name=password]').val());
 	});
 

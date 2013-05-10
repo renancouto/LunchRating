@@ -72,14 +72,15 @@ body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, 
 .structure-wrapper { padding: 16px 0; }
 .structure-wrapper > .inner { background: #ffd633; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); border-radius: 8px; }
 
-.structure-header { border-bottom: 1px solid #0f6b0f; border-radius: 8px 8px 0 0; color: #fff; margin-bottom: 12px; padding: 16px; position: relative; background-color: #19b319; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #19b319), color-stop(100%, #128612)); background-image: -webkit-linear-gradient(top, #19b319, #128612); background-image: -moz-linear-gradient(top, #19b319, #128612); background-image: -ms-linear-gradient(top, #19b319, #128612); background-image: -o-linear-gradient(top, #19b319, #128612); background-image: linear-gradient(top, #19b319, #128612); }
+.structure-header { border-bottom: 1px solid #0f6b0f; border-radius: 8px 8px 0 0; box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3); color: #fff; margin-bottom: 12px; padding: 16px; position: relative; background-color: #19b319; background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #19b319), color-stop(100%, #128612)); background-image: -webkit-linear-gradient(top, #19b319, #128612); background-image: -moz-linear-gradient(top, #19b319, #128612); background-image: -ms-linear-gradient(top, #19b319, #128612); background-image: -o-linear-gradient(top, #19b319, #128612); background-image: linear-gradient(top, #19b319, #128612); }
 .structure-header .logo { font-size: 30px; font-weight: 900; float: left; margin-left: 48px; text-shadow: 0 1px 0 #148f14, 0 2px 0 #128612, 0 3px 0 #117d11, 0 4px 5px rgba(0, 0, 0, 0.5); }
 .structure-header .icon-food, .structure-header .icon-star { position: absolute; }
 .structure-header .icon-star { font-size: 46px; left: 10px; bottom: 6px; }
 .structure-header .icon-food { color: #159815; font-size: 18px; left: 23px; bottom: 21px; text-shadow: none; }
-.structure-header .user { display: none; margin-top: 8px; float: right; text-align: right; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
-.structure-header .sign-out { color: transparent; font: 0/0 a; text-shadow: none; }
-.structure-header .sign-out:before { font-size: 10px; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
+.structure-header .user { display: none; margin-top: 10px; float: right; text-align: right; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
+.structure-header .sign-out { color: #ff0; cursor: pointer; }
+.structure-header .sign-out:before { display: inline-block; padding-right: 2px; vertical-align: middle; }
+.structure-header .sign-out:hover { color: #fff; }
 
 .structure-content { padding: 16px 32px; }
 
@@ -93,6 +94,8 @@ body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, 
 
 .ui-form .heading { color: #7f6600; font-weight: 900; font-size: 16px; margin-bottom: 8px; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
 .ui-form .ui-field { width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.ui-form .feedback { border-radius: 4px; margin-right: 2px; padding: 6px 8px; }
+.ui-form .feedback.error { background: #cc0000; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); }
 
 .ui-form.inline .ui-field-group { *zoom: 1; }
 .ui-form.inline .ui-field-group:before, .ui-form.inline .ui-field-group:after { content: " "; display: table; }
@@ -102,6 +105,7 @@ body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, 
 .ui-form.inline .ui-field-group .ui-field:last-child, .ui-form.inline .ui-field-group .ui-button:last-child { border-radius: 0 4px 4px 0; }
 .ui-form.blocked .ui-field-group { margin-top: 4px; }
 .ui-field-group.control { text-align: right; }
+.ui-field-group.control .ui-button, .ui-field-group.control .feedback { display: inline-block; vertical-align: top; }
 
 [class*="icon-"]:before { font-family: "UI"; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; }
 

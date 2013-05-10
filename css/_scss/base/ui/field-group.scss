@@ -20,5 +20,12 @@
 		margin-top: $u;
 	}
 
-	&.control { text-align: right; }
+	&.control {
+		text-align: right;
+
+		.ui-button, .feedback {
+			display: inline-block;
+			vertical-align: top;
+		}
+	}
 }

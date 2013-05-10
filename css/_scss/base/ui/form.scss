@@ -11,4 +11,16 @@
 		width: 100%;
 		@include box-sizing(border-box);
 	}
+
+	.feedback {
+		border-radius: $u;
+		margin-right: $u/2;
+		padding: $u + $u/2 $u*2;
+
+		&.error {
+			background: $c-red;
+			color: #fff;
+			text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		}
+	}
 }
