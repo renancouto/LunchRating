@@ -4,7 +4,6 @@
 	border-radius: $u*2 $u*2 0 0;
 	box-shadow: inset 0 1px 1px rgba(255,255,255,.3);
 	color: #fff;
-	margin-bottom: $u*3;
 	padding: $u*4;
 	position: relative;
 	@include linear-gradient($c, shade($c, 25));

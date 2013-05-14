@@ -27,8 +27,7 @@ exports.data = {
 		},
 
 		"template": {
-			"base": "template/_.html",
-			"content": "content/index.html"
+			"base": "template/_.html"
 		},
 
 		"url": "index.html"

@@ -1,3 +1,5 @@
 .structure-content {
-	padding: $u*4 $u*8;
+	padding: $u*8;
+
+	&.loading { background: image('preloader.gif') center no-repeat; }
 }

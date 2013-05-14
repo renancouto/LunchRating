@@ -1,4 +1,6 @@
+// App configuration
 LunchRating.config = {
+
 	// Parse settings
 	appId: 'osVwHKqwPjF8cCwjIOPYVaV5lQVVLZADa4zVrQoy',
 	jsKey: 'EjVkdcArfvUxLcVkHSDL07b3feSIS5XXClrBJt5h',
@@ -11,6 +13,10 @@ LunchRating.config = {
 	}
 };
 
+// Data
+LunchRating.data = { user: {} };
+
+// App initializer
 LunchRating.initialize = function() {
 	LunchRating.helpers.underscore();
 
@@ -22,9 +28,12 @@ LunchRating.initialize = function() {
 
 	Parse.history.start();
 
-	// this.userSetup();
+	var TestObject = Parse.Object.extend("TestObject");
+    var testObject = new TestObject();
+    testObject.save({foos: "bars"});
 };
 
+// Routes
 LunchRating.router = Parse.Router.extend({
 	routes: {
 		completed: 'completed'
@@ -35,7 +44,10 @@ LunchRating.router = Parse.Router.extend({
 	}
 });
 
+// Views
 LunchRating.view = {
+
+	// Main
 	main: Parse.View.extend({
 		el: $('#lunch-rating'),
 
@@ -45,28 +57,104 @@ LunchRating.view = {
 
 		render: function() {
 			if (Parse.User.current()) {
-				// new ManageTodosView();
+				new LunchRating.view.rating();
 			} else {
 				new LunchRating.view.login();
 			}
 		}
 	}),
 
+	// Login
 	login: Parse.View.extend({
-		events: {},
+		events: {
+			'submit #login-form': 'login',
+			'submit #signup-form': 'signup'
+		},
+
 		el: '.structure-content',
 
 		initialize: function() {
+			_.bindAll(this, 'login', 'signup', 'success');
 			this.render();
+		},
+
+		login: function(e) {
+			e.preventDefault();
+
+			var self = this,
+				data = _.formData($(e.currentTarget));
+
+			Parse.User.logIn(data.username, data.password, {
+				success: function(user) { self.success(self); },
+				error: function(user, error) {
+					console.error(user, error);
+					// feedback($loginForm, 'Combinação de login/senha incorretos');
+				}
+			});
+		},
+
+		signup: function(e) {
+			e.preventDefault();
+
+			var self = this,
+				data = _.formData($(e.currentTarget));
+
+			Parse.User.signUp(data.username, data.password, { ACL: new Parse.ACL() }, {
+				success: function(user) { self.success(self); },
+				error: function(user, error) {
+					console.error(user, error);
+				}
+			});
+		},
+
+		success: function(self) {
+			new LunchRating.view.rating();
+			self.undelegateEvents();
 		},
 
 		render: function() {
 			var content = _.render('asset/login-form.html');
 				content += _.render('asset/signup-form.html');
 
-			this.$el.html(content);
+			LunchRating.content.build(_.render('content/login.html'));
+		}
+	}),
+
+	// Rating
+	rating: Parse.View.extend({
+		// events: {},
+
+		// el: '',
+
+		initialize: function() {
+			LunchRating.data.user = Parse.User.current().attributes;
+			this.render();
+		},
+
+		render: function() {
+			LunchRating.content.reset();
+			LunchRating.content.build(_.render('content/rating.html', LunchRating.data));
 		}
 	})
+};
+
+// Display template results
+LunchRating.content = {
+	$el: $('.structure-content'),
+
+	build: function(content) {
+		this.$el
+			.removeClass('loading')
+			.hide()
+			.html(content)
+			.fadeIn();
+	},
+
+	reset: function() {
+		this.$el
+			.html('')
+			.addClass('loading');
+	}
 };
 
 LunchRating.userSetup = function() {
@@ -139,8 +227,13 @@ LunchRating.userSetup = function() {
 
 // Helpers
 LunchRating.helpers = {
+
+	// Underscore extensions
 	underscore: function() {
+
 		_.mixin({
+
+			// Load data and store on browser's localStorage for future requests
 			load: function(file) {
 				file += LunchRating.config.template.sulfix;
 
@@ -167,8 +260,19 @@ LunchRating.helpers = {
 				return template;
 			},
 
+			// Load and render data
 			render: function(file, data, context) {
 				return _.template(_.load(file), data || {}, context || { variable: 'it' });
+			},
+
+			// Turns form data into an object (depends on jQuery's serializeArray)
+			formData: function($form) {
+				return _.reduce($form.serializeArray(),
+					function(result, orgin) {
+						result[orgin.name] = orgin.value;
+						return result;
+					},
+				{});
 			}
 		});
 	}
