@@ -1,0 +1,19 @@
+.ui-type {
+	.heading:not(.ui-type-off) {
+		color: shade($c-orange, 50);
+		font-weight: 900;
+		font-size: 16px;
+		margin-bottom: $u*2;
+		text-shadow: 0 1px 0 rgba(255,255,255,.5);
+
+		&.small { font-size: 12px; }
+		&.dark { color: shade($c-orange, 75); }
+		&.normal { font-weight: 300; }
+	}
+
+	.spacer-top:not(.ui-type-off) {
+		border-top: 1px dotted shade($c-orange, 25);
+		padding-top: $u*3;
+		margin-top: $u*4;
+	}
+}

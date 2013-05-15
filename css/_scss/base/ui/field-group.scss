@@ -27,5 +27,24 @@
 			display: inline-block;
 			vertical-align: top;
 		}
+
+		&.center {
+			text-align: center;
+		}
+	}
+
+	&.spaced {
+		margin-top: $u*3;
+	}
+
+	> .label {
+		margin-bottom: $u;
+	}
+
+	.row-2 > & {
+		margin-bottom: $u*2;
+
+		&:nth-child(even) { float: right; }
+		&:nth-child(odd) { float: left; }
 	}
 }

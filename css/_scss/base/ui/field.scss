@@ -15,4 +15,35 @@
 		background: #fff;
 		z-index: 1;
 	}
+
+	&.inline {
+		display: inline-block;
+		margin-bottom: $u/2;
+	}
+
+	&.chooser {
+		padding: 0;
+
+		.label {
+			border-radius: $u/2;
+			display: block;
+			margin: $u/2;
+			padding: $u;
+		}
+
+		input {
+			display: none;
+
+			&:checked + .label {
+				color: #fff;
+				background: $c-green;
+				text-shadow: 0 1px 1px rgba(0,0,0,.5);
+			}
+		}
+	}
+}
+
+select.ui-field {
+	cursor: pointer;
+	@include appearance(none);
 }

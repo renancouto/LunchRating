@@ -14,7 +14,7 @@ LunchRating.config = {
 };
 
 // Data
-LunchRating.data = { user: {} };
+LunchRating.data = { user: {}, menu: {} };
 
 // App initializer
 LunchRating.initialize = function() {
@@ -28,9 +28,9 @@ LunchRating.initialize = function() {
 
 	Parse.history.start();
 
-	var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-    testObject.save({foos: "bars"});
+	// var TestObject = Parse.Object.extend("TestObject");
+	// var testObject = new TestObject();
+	// testObject.save({foos: "bars"});
 };
 
 // Routes
@@ -127,13 +127,20 @@ LunchRating.view = {
 		// el: '',
 
 		initialize: function() {
-			LunchRating.data.user = Parse.User.current().attributes;
-			this.render();
+			var Menu = Parse.Object.extend('Menu'),
+				menu = new Menu(),
+				self = this;
+
+			menu.fetch().then(function(){
+				LunchRating.data.menu = menu.attributes.results;
+				LunchRating.data.user = Parse.User.current().attributes;
+				self.render();
+			});
 		},
 
 		render: function() {
 			LunchRating.content.reset();
-			LunchRating.content.build(_.render('content/rating.html', LunchRating.data));
+			LunchRating.content.build(_.render('content/rating.html', LunchRating.data, true));
 		}
 	})
 };
@@ -234,11 +241,11 @@ LunchRating.helpers = {
 		_.mixin({
 
 			// Load data and store on browser's localStorage for future requests
-			load: function(file) {
+			load: function(file, noCache) {
 				file += LunchRating.config.template.sulfix;
 
 				// Recover data stored on the browser
-				var template = localStorage.getItem(LunchRating.config.template.prefix + file);
+				var template = noCache ? '' : localStorage.getItem(LunchRating.config.template.prefix + file);
 
 				// If no data is stored, then load it synchronously
 				if (!template) {
@@ -261,8 +268,8 @@ LunchRating.helpers = {
 			},
 
 			// Load and render data
-			render: function(file, data, context) {
-				return _.template(_.load(file), data || {}, context || { variable: 'it' });
+			render: function(file, data, noCache, context) {
+				return _.template(_.load(file, noCache), data || {}, context || { variable: 'it' });
 			},
 
 			// Turns form data into an object (depends on jQuery's serializeArray)
@@ -273,7 +280,25 @@ LunchRating.helpers = {
 						return result;
 					},
 				{});
+			},
+
+			// Print an array list to string, separated by commas also with and in the last item
+			printArray: function(list) {
+				var result = '',
+					total = list.length;
+
+				_.each(list, function(item, index){
+					result += item;
+					if (index == total - 2) result += ' e ';
+					else if (index != total - 1) result += ', ';
+				});
+
+				return result;
 			}
 		});
 	}
+};
+
+String.prototype.toProperCase = function () {
+	return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
