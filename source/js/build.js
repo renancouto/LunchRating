@@ -1,9 +1,10 @@
 var fs = require('fs'),
-	_ = require('./lib/underscore-min'),
+	_ = require('./underscore-min'),
 
 	paths = {
 		content: '../content/view/',
-		markup: '../markup/'
+		markup: '../markup/',
+		result: '../../public/'
 	},
 
 	cache = {},
@@ -24,7 +25,7 @@ Build = function(data) {
 	data = require(paths.content + data).data;
 
 	Log('Building page: ' + data.view.url, true);
-	fs.writeFile('../' + data.view.url, _.render(data.view.template.base, data));
+	fs.writeFile(paths.result + data.view.url, _.render(data.view.template.base, data));
 	Log('Building of page "' + data.view.url + '" finished!', true);
 };
 

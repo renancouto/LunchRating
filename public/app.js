@@ -7,7 +7,7 @@ LunchRating.config = {
 
 	// Template settings
 	template: {
-		path: 'markup/',
+		path: 'markup.',
 		prefix: 'template.',
 		sulfix: ''
 	}
@@ -243,6 +243,9 @@ LunchRating.helpers = {
 			// Load data and store on browser's localStorage for future requests
 			load: function(file, noCache) {
 				file += LunchRating.config.template.sulfix;
+
+				// Convert dashes into points to bypass parse deploy on folders issue
+				file = file.replace(/\//g, '.');
 
 				// Recover data stored on the browser
 				var template = noCache ? '' : localStorage.getItem(LunchRating.config.template.prefix + file);

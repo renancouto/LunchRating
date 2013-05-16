@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Lunch Ratings": {
+            "applicationId": "osVwHKqwPjF8cCwjIOPYVaV5lQVVLZADa4zVrQoy",
+            "masterKey": "yhG9U2GJXRvjvHmhGeOUft51JQoQLjsu9fp9Ldkp"
+        },
+        "_default": {
+            "link": "Lunch Ratings"
+        }
+    },
+    "global": {
+        "parseVersion": "1.2.7"
+    }
+}

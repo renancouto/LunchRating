@@ -1,4 +1,4 @@
-@font-face { font-family: "UI"; font-weight: normal; font-style: normal; src: url("../font/lunchratings-ui.eot"); src: url("../font/lunchratings-ui.eot?#iefix") format("embedded-opentype"), url("../font/lunchratings-ui.woff") format("woff"), url("../font/lunchratings-ui.ttf") format("truetype"), url("../font/lunchratings-ui.svg#UI") format("svg"); }
+@font-face { font-family: "UI"; font-weight: normal; font-style: normal; src: url("lunchratings-ui.eot"); src: url("lunchratings-ui.eot?#iefix") format("embedded-opentype"), url("lunchratings-ui.woff") format("woff"), url("lunchratings-ui.ttf") format("truetype"), url("lunchratings-ui.svg#UI") format("svg"); }
 
 html, body { height: 100%; }
 
@@ -67,7 +67,7 @@ object { outline: none; display: block; overflow: hidden; }
 
 .hide { display: none; }
 
-body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, Helvetica, sans-serif; }
+body { background: #ffcc00 url(body-bg.png); font-family: "Lato", Arial, Helvetica, sans-serif; }
 
 .structure-wrapper { padding: 16px 0; }
 .structure-wrapper > .inner { background: #ffd633; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); border-radius: 8px; }
@@ -83,7 +83,7 @@ body { background: #ffcc00 url(../img/body-bg.png); font-family: "Lato", Arial, 
 .structure-header .sign-out:hover { color: #fff; }
 
 .structure-content { padding: 32px; }
-.structure-content.loading { background: url(../img/preloader.gif) center no-repeat; }
+.structure-content.loading { background: url(preloader.gif) center no-repeat; }
 
 .footer-main { border-top: 1px dotted #cca300; color: #cca300; margin: 0 16px; padding: 8px 0; text-align: center; }
 
