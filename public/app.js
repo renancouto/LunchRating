@@ -14,7 +14,7 @@ LunchRating.config = {
 };
 
 // Data
-LunchRating.data = { user: {}, menu: {} };
+LunchRating.data = { user: {}, menu: {}, rating: {} };
 
 // App initializer
 LunchRating.initialize = function() {
@@ -40,6 +40,19 @@ LunchRating.router = Parse.Router.extend({
 	}
 });
 
+// Model
+LunchRating.rating = Parse.Object.extend('Rating', {
+	initialize: function() {
+		_.bindAll(this, 'update');
+		this.bind('change', this.update);
+	},
+
+	update: function() {
+		console.log(this);
+		this.save({ user: LunchRating.data.user.username });
+	}
+});
+
 // Views
 LunchRating.view = {
 
@@ -53,7 +66,7 @@ LunchRating.view = {
 
 		render: function() {
 			if (Parse.User.current()) {
-				new LunchRating.view.rating();
+				LunchRating.view.ratingBuilder();
 			} else {
 				new LunchRating.view.login();
 			}
@@ -133,21 +146,42 @@ LunchRating.view = {
 	}),
 
 	// Rating
-	rating: Parse.View.extend({
-		// events: {},
+	ratingBuilder: function() {
+		var rating = new LunchRating.rating(),
+			view = new LunchRating.view.rating({ model: rating });
+	},
 
-		// el: '',
+	rating: Parse.View.extend({
+		events: {
+			'change [name=aceitacao]': 'toggle'
+		},
+
+		el: '.structure-content',
 
 		initialize: function() {
 			var Menu = Parse.Object.extend('Menu'),
 				menu = new Menu(),
 				self = this;
 
+			_.bindAll(this, 'toggle');
+
 			menu.fetch().then(function(){
 				LunchRating.data.menu = menu.attributes.results;
 				LunchRating.data.user = Parse.User.current().attributes;
 				self.render();
 			});
+		},
+
+		toggle: function(e) {
+			var $trigger = $(e.currentTarget),
+				key = $trigger.attr('name');
+				val = $trigger.val(),
+				data = {};
+
+			data[key] = val;
+			this.model.set(data);
+
+			$('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
 		},
 
 		render: function() {
@@ -172,74 +206,6 @@ LunchRating.content = {
 		this.$el
 			.html('')
 			.addClass('loading');
-	}
-};
-
-LunchRating.userSetup = function() {
-	var apply = function() {
-		LunchRating.user = Parse.User.current();
-
-		$('#username')
-			.show()
-			.find('.name')
-				.html(LunchRating.user.attributes.username.split('@')[0]);
-
-		$('#logout').on('click', function(){
-			Parse.User.logOut();
-		});
-	},
-
-	signUp = function(email, password) {
-		Parse.User.signUp(email, password, { ACL: new Parse.ACL() }, {
-			success: function(user) {
-				console.log(user);
-			},
-
-			error: function(user, error) {
-				console.error(user, error);
-			}
-		});
-	},
-
-	logIn = function(email, password) {
-		Parse.User.logIn(email, password, {
-			success: function(user) {
-				// console.log(user);
-				apply();
-			},
-
-			error: function(user, error) {
-				// console.error(user, error);
-				feedback($loginForm, 'Combinação de login/senha incorretos');
-			}
-		});
-	},
-
-	feedback = function($el, msg) {
-		var $feedback = $el.find('.feedback').hide();
-
-		if (!msg) return;
-
-		$feedback
-			.addClass('error')
-			.show()
-			.html(msg);
-	},
-
-	$loginForm = $('#login-form').on('submit', function(e){
-		e.preventDefault();
-		var $this = $(this),
-			$input = $this.find('input');
-
-		feedback($this);
-		logIn($input.filter('[name=email]').val(), $input.filter('[name=password]').val());
-	});
-
-	// Check if user is logged
-	if (Parse.User.current()) {
-		apply();
-	} else {
-		// new LogInView();
 	}
 };
 
