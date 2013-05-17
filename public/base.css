@@ -107,8 +107,10 @@ select.ui-field { cursor: pointer; -webkit-appearance: none; -moz-appearance: no
 .ui-type .spacer-top:not(.ui-type-off) { border-top: 1px dotted #bf9900; padding-top: 12px; margin-top: 16px; }
 
 .ui-form .ui-field { width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
-.ui-form .feedback { border-radius: 4px; margin-right: 2px; padding: 6px 8px; }
-.ui-form .feedback.error { background: #cc0000; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); }
+.ui-form .feedback { border-radius: 4px; display: none; margin-right: 2px; padding: 6px 8px; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); max-width: 229px; font-size: 10px; }
+.ui-form .feedback.start { background: rgba(0, 0, 0, 0.4); }
+.ui-form .feedback.error { background: #cc0000; }
+.ui-form .feedback.success { background: #009900; }
 
 .ui-form.inline .ui-field-group { *zoom: 1; }
 .ui-form.inline .ui-field-group:before, .ui-form.inline .ui-field-group:after { content: " "; display: table; }

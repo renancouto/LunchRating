@@ -6,13 +6,16 @@
 
 	.feedback {
 		border-radius: $u;
+		display: none;
 		margin-right: $u/2;
 		padding: $u + $u/2 $u*2;
+		color: #fff;
+		text-shadow: 0 1px 1px rgba(0,0,0,.5);
+		max-width: 229px;
+		font-size: 10px;
 
-		&.error {
-			background: $c-red;
-			color: #fff;
-			text-shadow: 0 1px 1px rgba(0,0,0,.5);
-		}
+		&.start { background: rgba(0,0,0,.4); }
+		&.error { background: $c-red; }
+		&.success { background: $c-green; }
 	}
 }

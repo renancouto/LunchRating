@@ -27,10 +27,6 @@ LunchRating.initialize = function() {
 	new LunchRating.view.main();
 
 	Parse.history.start();
-
-	// var TestObject = Parse.Object.extend("TestObject");
-	// var testObject = new TestObject();
-	// testObject.save({foos: "bars"});
 };
 
 // Routes
@@ -74,7 +70,7 @@ LunchRating.view = {
 		el: '.structure-content',
 
 		initialize: function() {
-			_.bindAll(this, 'login', 'signup', 'success');
+			_.bindAll(this, 'login', 'signup', 'success', 'feedback');
 			this.render();
 		},
 
@@ -82,14 +78,14 @@ LunchRating.view = {
 			e.preventDefault();
 
 			var self = this,
-				data = _.formData($(e.currentTarget));
+				$form = $(e.currentTarget),
+				data = _.formData($form);
+
+			self.feedback($form, 'Logging in...', 'start');
 
 			Parse.User.logIn(data.username, data.password, {
 				success: function(user) { self.success(self); },
-				error: function(user, error) {
-					console.error(user, error);
-					// feedback($loginForm, 'Combinação de login/senha incorretos');
-				}
+				error: function(user, error) { self.feedback($form, error.message, 'error'); }
 			});
 		},
 
@@ -97,19 +93,35 @@ LunchRating.view = {
 			e.preventDefault();
 
 			var self = this,
-				data = _.formData($(e.currentTarget));
+				$form = $(e.currentTarget),
+				data = _.formData($form);
+
+			self.feedback($form, 'Signing up...', 'start');
 
 			Parse.User.signUp(data.username, data.password, { ACL: new Parse.ACL() }, {
 				success: function(user) { self.success(self); },
-				error: function(user, error) {
-					console.error(user, error);
-				}
+				error: function(user, error) { self.feedback($form, error.message, 'error'); }
 			});
 		},
 
+		feedback: function($form, msg, type) {
+			var $feedback = $form.find('.feedback')
+				.hide()
+				.removeClass('error, success, start');
+
+			if (!msg) return;
+
+			$feedback
+				.addClass(type)
+				.show()
+				.html(msg);
+		},
+
 		success: function(self) {
-			new LunchRating.view.rating();
+			LunchRating.content.reset();
 			self.undelegateEvents();
+
+			new LunchRating.view.rating();
 		},
 
 		render: function() {
@@ -139,7 +151,6 @@ LunchRating.view = {
 		},
 
 		render: function() {
-			LunchRating.content.reset();
 			LunchRating.content.build(_.render('content/rating.html', LunchRating.data, true));
 		}
 	})
