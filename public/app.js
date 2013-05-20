@@ -14,7 +14,7 @@ LunchRating.config = {
 };
 
 // Data
-LunchRating.data = { user: {}, menu: {}, rating: {} };
+LunchRating.data = { user: {}, meal: {}, rating: {} };
 
 // App initializer
 LunchRating.initialize = function() {
@@ -49,7 +49,7 @@ LunchRating.rating = Parse.Object.extend('Rating', {
 
 	update: function() {
 		console.log(this);
-		this.save({ user: LunchRating.data.user.username });
+		this.save();
 	}
 });
 
@@ -133,8 +133,7 @@ LunchRating.view = {
 		success: function(self) {
 			LunchRating.content.reset();
 			self.undelegateEvents();
-
-			new LunchRating.view.rating();
+			LunchRating.view.ratingBuilder();
 		},
 
 		render: function() {
@@ -153,21 +152,23 @@ LunchRating.view = {
 
 	rating: Parse.View.extend({
 		events: {
-			'change [name=aceitacao]': 'toggle'
+			'change [name=aceitacao]': 'toggle',
+			'change [name]': 'update'
 		},
 
 		el: '.structure-content',
 
 		initialize: function() {
-			var Menu = Parse.Object.extend('Menu'),
-				menu = new Menu(),
+			var Meal = Parse.Object.extend('Meal'),
+				meal = new Meal(),
 				self = this;
 
 			_.bindAll(this, 'toggle');
 
-			menu.fetch().then(function(){
-				LunchRating.data.menu = menu.attributes.results;
+			meal.fetch().then(function() {
+				LunchRating.data.meal = meal.attributes.results;
 				LunchRating.data.user = Parse.User.current().attributes;
+				self.model.set({ username: LunchRating.data.user.username, meal: LunchRating.data.meal[0].objectId });
 				self.render();
 			});
 		},
@@ -182,6 +183,10 @@ LunchRating.view = {
 			this.model.set(data);
 
 			$('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
+		},
+
+		update: function(e) {
+			console.log(e);
 		},
 
 		render: function() {
