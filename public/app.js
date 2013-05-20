@@ -23,7 +23,7 @@ LunchRating.initialize = function() {
 	Parse.$ = jQuery;
 	Parse.initialize(LunchRating.config.appId, LunchRating.config.jsKey);
 
-	new LunchRating.router();
+	LunchRating.router = new LunchRating.router();
 	new LunchRating.view.main();
 
 	Parse.history.start();
@@ -35,9 +35,7 @@ LunchRating.router = Parse.Router.extend({
 		completed: 'completed'
 	},
 
-	completed: function() {
-
-	}
+	completed: function() {}
 });
 
 // Model
@@ -48,7 +46,7 @@ LunchRating.rating = Parse.Object.extend('Rating', {
 	},
 
 	update: function() {
-		console.log(this);
+		// console.log(this);
 		this.save();
 	}
 });
@@ -152,7 +150,6 @@ LunchRating.view = {
 
 	rating: Parse.View.extend({
 		events: {
-			'change [name=aceitacao]': 'toggle',
 			'change [name]': 'update'
 		},
 
@@ -163,7 +160,7 @@ LunchRating.view = {
 				meal = new Meal(),
 				self = this;
 
-			_.bindAll(this, 'toggle');
+			_.bindAll(this, 'update');
 
 			meal.fetch().then(function() {
 				LunchRating.data.meal = meal.attributes.results;
@@ -173,7 +170,7 @@ LunchRating.view = {
 			});
 		},
 
-		toggle: function(e) {
+		update: function(e) {
 			var $trigger = $(e.currentTarget),
 				key = $trigger.attr('name');
 				val = $trigger.val(),
@@ -182,11 +179,7 @@ LunchRating.view = {
 			data[key] = val;
 			this.model.set(data);
 
-			$('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
-		},
-
-		update: function(e) {
-			console.log(e);
+			if (key == 'aceitacao') $('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
 		},
 
 		render: function() {
@@ -279,6 +272,20 @@ LunchRating.helpers = {
 				});
 
 				return result;
+			},
+
+			// Replace special characters
+			specialChars: function(str) {
+				return str
+					.replace(/[á|ã|â|à]/gi, 'a')
+					.replace(/[é|ê|è]/gi, 'e')
+					.replace(/[í|ì|î]/gi, 'i')
+					.replace(/[õ|ò|ó|ô]/gi, 'o')
+					.replace(/[ú|ù|û]/gi, 'u')
+					.replace(/[ç]/gi, 'c')
+					.replace(/[ñ]/gi, 'n')
+					.replace(/[á|ã|â]/gi, 'a')
+					.replace(/\W/gi, '-');
 			}
 		});
 	}

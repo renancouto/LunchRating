@@ -39,7 +39,7 @@
 			<div class="ui-field-group spaced">
 				<h3 class="heading small dark"><%= item.toProperCase() %></h3>
 
-				<select name="<%= item %>" class="ui-field">
+				<select name="<%= _.specialChars(item) %>" class="ui-field">
 					<option value="">Escolha</option>
 					<option value="4">Bom bagarai!</option>
 					<option value="3">Até que tava bom</option>
