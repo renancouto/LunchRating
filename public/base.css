@@ -127,6 +127,7 @@ select.ui-field { cursor: pointer; -webkit-appearance: none; -moz-appearance: no
 .row-2 > .ui-field-group { margin-bottom: 8px; }
 .row-2 > .ui-field-group:nth-child(even) { float: right; }
 .row-2 > .ui-field-group:nth-child(odd) { float: left; }
+.row-2 > .ui-field-group .ui-field { max-width: 165px; }
 
 [class*="icon-"]:before { font-family: "UI"; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; }
 
@@ -137,5 +138,12 @@ select.ui-field { cursor: pointer; -webkit-appearance: none; -moz-appearance: no
 .icon-user:before { content: "\e002"; }
 
 .icon-exit:before { content: "\e003"; }
+
+.ui-preloader { display: none; }
+.ui-preloader.p-t { padding-top: 8px; }
+.ui-preloader[data-status="success"] .img { display: none; }
+.ui-preloader .label, .ui-preloader .img { display: inline-block; vertical-align: middle; }
+.ui-preloader .label { color: #7f6600; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+.ui-preloader .img { height: 16px; margin-right: 4px; }
 
 .signup-form { margin-top: 24px; }

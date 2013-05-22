@@ -1,0 +1,24 @@
+.ui-preloader {
+	display: none;
+
+	&.p-t { padding-top: $u*2; }
+
+	&[data-status="success"] {
+		.img { display: none; }
+	}
+
+	.label, .img {
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.label {
+		color: shade($c-orange, 50);
+		text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	}
+
+	.img {
+		height: 16px;
+		margin-right: $u;
+	}
+}

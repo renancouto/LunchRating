@@ -46,5 +46,7 @@
 
 		&:nth-child(even) { float: right; }
 		&:nth-child(odd) { float: left; }
+
+		.ui-field { max-width: 165px; }
 	}
 }

@@ -1,0 +1,12 @@
+<select name="<%= _.specialChars(it.name) %>" class="ui-field">
+	<option value="">Escolha</option>
+	<option value="5">(5★) Bom bagarai!</option>
+	<option value="4">(4★) Até que tava bom</option>
+	<option value="3">(3★) Normal</option>
+	<option value="2">(2★) Tem que melhorar</option>
+	<option value="1">(1★) Comi pra não passar fome</option>
+	<option value="0">(0★) Lixo</option>
+	<% if (it.untried) { %>
+	<option value="sem-opiniao">Não provei</option>
+	<% } %>
+</select>

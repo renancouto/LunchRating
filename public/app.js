@@ -42,12 +42,13 @@ LunchRating.router = Parse.Router.extend({
 LunchRating.rating = Parse.Object.extend('Rating', {
 	initialize: function() {
 		_.bindAll(this, 'update');
-		this.bind('change', this.update);
+		// this.bind('change', this.update);
 	},
 
-	update: function() {
-		// console.log(this);
-		this.save();
+	update: function(feedback) {
+		this.save(null, {
+			success: function() { feedback({ status: 'success', msg: 'Dados enviados' }); }
+		});
 	}
 });
 
@@ -155,12 +156,16 @@ LunchRating.view = {
 
 		el: '.structure-content',
 
+		preloader: function() {
+			return this.$el.find('.ui-preloader');
+		},
+
 		initialize: function() {
 			var Meal = Parse.Object.extend('Meal'),
 				meal = new Meal(),
 				self = this;
 
-			_.bindAll(this, 'update');
+			_.bindAll(this, 'update', 'feedback', 'preloader');
 
 			meal.fetch().then(function() {
 				LunchRating.data.meal = meal.attributes.results;
@@ -171,15 +176,56 @@ LunchRating.view = {
 		},
 
 		update: function(e) {
-			var $trigger = $(e.currentTarget),
-				key = $trigger.attr('name');
-				val = $trigger.val(),
-				data = {};
+			this.feedback({ status: 'start', msg: 'Enviando' });
 
-			data[key] = val;
-			this.model.set(data);
+			var $trigger = $(e.currentTarget),
+				key = $trigger.attr('name'),
+				val = $trigger.val(),
+				checked = e.currentTarget.checked,
+				arr, obj = {};
+
+			// Convert to Array
+			if (/\[]/.test(key)) {
+				key = key.replace('[]', '');
+				arr = this.model.get(key);
+
+				if (arr) {
+					if (checked) arr.push(val);
+					else arr = _.without(arr, val);
+					val = arr;
+				}
+				else if (checked) {
+					val = [val];
+				}
+
+				obj[key] = val;
+			}
+
+			// Convert to object
+			if (/\./.test(key)) {
+				arr = key.split('.');
+				key = arr[0];
+
+				obj[key] = this.model.get(key) || {};
+				obj[key][arr[1]] = val;
+			}
+
+			this.model.set(obj);
+			this.model.update(this.feedback);
 
 			if (key == 'aceitacao') $('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
+		},
+
+		feedback: function(settings) {
+			this.preloader()
+				.stop()
+				.hide()
+				.attr('data-status', settings.status)
+				.fadeIn()
+				.find('.label')
+					.html(settings.msg);
+
+			if (settings.status != 'start') this.preloader().show().delay(2000).fadeOut();
 		},
 
 		render: function() {
@@ -277,6 +323,7 @@ LunchRating.helpers = {
 			// Replace special characters
 			specialChars: function(str) {
 				return str
+					.toLowerCase()
 					.replace(/[á|ã|â|à]/gi, 'a')
 					.replace(/[é|ê|è]/gi, 'e')
 					.replace(/[í|ì|î]/gi, 'i')
@@ -284,8 +331,8 @@ LunchRating.helpers = {
 					.replace(/[ú|ù|û]/gi, 'u')
 					.replace(/[ç]/gi, 'c')
 					.replace(/[ñ]/gi, 'n')
-					.replace(/[á|ã|â]/gi, 'a')
-					.replace(/\W/gi, '-');
+					.replace(/[á|ã|â]/gi, 'a');
+					// .replace(/\W/gi, '-');
 			}
 		});
 	}
