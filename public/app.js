@@ -163,16 +163,28 @@ LunchRating.view = {
 		initialize: function() {
 			var Meal = Parse.Object.extend('Meal'),
 				meal = new Meal(),
-				self = this;
+				self = this,
+				query = new Parse.Query(Meal);
+
+			query.first({
+				success: function(current) {
+					LunchRating.data.meal = current;
+					LunchRating.data.user = Parse.User.current();
+
+					self.model.set({
+						user: LunchRating.data.user,
+						meal: current
+					});
+
+					self.render();
+				},
+
+				error: function(err) {
+					console.error('Couldn\'t load meal data', err);
+				}
+			});
 
 			_.bindAll(this, 'update', 'feedback', 'preloader');
-
-			meal.fetch().then(function() {
-				LunchRating.data.meal = meal.attributes.results;
-				LunchRating.data.user = Parse.User.current().attributes;
-				self.model.set({ username: LunchRating.data.user.username, meal: LunchRating.data.meal[0].objectId });
-				self.render();
-			});
 		},
 
 		update: function(e) {
@@ -308,8 +320,11 @@ LunchRating.helpers = {
 
 			// Print an array list to string, separated by commas also with and in the last item
 			printArray: function(list) {
-				var result = '',
-					total = list.length;
+				var result = '', total;
+
+				if (!list) return '';
+
+				total = list.length;
 
 				_.each(list, function(item, index){
 					result += item;

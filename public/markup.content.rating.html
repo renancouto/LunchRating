@@ -1,6 +1,6 @@
-<% var current = _.last(it.meal); %>
+<% var user = it.user.attributes, meal = it.meal.attributes; %>
 <div class="ui-type">
-	<h2 class="heading">Olá, <%= it.user.username %>!</h2>
+	<h2 class="heading">Olá, <%= user.username %>!</h2>
 
 	<div class="ui-field-group spaced">
 		<h3 class="heading small dark">Você almoçou na NBR hoje?</h3>
@@ -24,10 +24,10 @@
 			<%= _.render('asset.rating-form.select.html', { name: 'avaliacao.geral' }) %>
 		</div>
 
-		<p class="heading normal small dark spacer-top">O cardápio de hoje foi <strong><%= _.printArray(current.items) %></strong>. Em relação aos itens, como você avalia?</p>
+		<p class="heading normal small dark spacer-top">O cardápio de hoje foi <strong><%= _.printArray(meal.items) %></strong>. Em relação aos itens, como você avalia?</p>
 
 		<div class="group row-2">
-			<% _.each(current.items, function(item, index){ %>
+			<% _.each(meal.items, function(item, index){ %>
 			<div class="ui-field-group spaced">
 				<h3 class="heading small dark"><%= item.toProperCase() %></h3>
 				<%= _.render('asset.rating-form.select.html', { name: 'avaliacao.' + item, untried: true }) %>
