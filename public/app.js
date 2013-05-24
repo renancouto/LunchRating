@@ -42,15 +42,21 @@ LunchRating.router = Parse.Router.extend({
 LunchRating.rating = Parse.Object.extend('Rating', {
 	initialize: function() {
 		_.bindAll(this, 'update');
-		// this.bind('change', this.update);
+		this.bind('change', this.update);
 	},
 
-	update: function(feedback) {
-		this.save(null, {
-			success: function() { feedback({ status: 'success', msg: 'Dados enviados' }); }
+	update: function() {
+		var self = this;
+		self.trigger('feedback', { status: 'start', msg: 'Enviando' });
+		self.save(null, {
+			success: function() {
+				self.trigger('feedback', { status: 'success', msg: 'Dados enviados' });
+			}
 		});
 	}
 });
+
+LunchRating.meal = Parse.Object.extend('Meal');
 
 // Views
 LunchRating.view = {
@@ -156,45 +162,73 @@ LunchRating.view = {
 
 		el: '.structure-content',
 
+		initialize: function() {
+			var meal = new LunchRating.meal(),
+				query = new Parse.Query(LunchRating.meal),
+				self = this,
+				user = Parse.User.current(),
+
+				dateRange = {
+					min: moment().startOf('day')._d,
+					max: moment().startOf('day').add('d', 1)._d
+				};
+
+			_.bindAll(this, 'update', 'feedback', 'preloader', 'setupModel', 'setupMeal');
+			this.model.bind('feedback', this.feedback);
+
+			query
+				.greaterThanOrEqualTo('date', dateRange.min)
+				.lessThan('date', dateRange.max)
+				.notEqualTo('ratedBy', user.attributes.username)
+				.first({
+					success: function(current) {
+						LunchRating.data.meal = current;
+						LunchRating.data.user = user;
+
+						if (!current) {
+							LunchRating.data.returning = true;
+							LunchRating.view.completedBuilder();
+							self.undelegateEvents();
+							return;
+						}
+
+						self.setupModel(LunchRating.data.user, current);
+						self.render();
+						self.meal = current;
+					},
+
+					error: function(err) {
+						console.error('Couldn\'t load meal data', err);
+					}
+				});
+		},
+
 		preloader: function() {
 			return this.$el.find('.ui-preloader');
 		},
 
-		initialize: function() {
-			var Meal = Parse.Object.extend('Meal'),
-				meal = new Meal(),
-				self = this,
-				query = new Parse.Query(Meal);
-
-			query.first({
-				success: function(current) {
-					LunchRating.data.meal = current;
-					LunchRating.data.user = Parse.User.current();
-
-					self.model.set({
-						user: LunchRating.data.user,
-						meal: current
-					});
-
-					self.render();
-				},
-
-				error: function(err) {
-					console.error('Couldn\'t load meal data', err);
-				}
+		setupModel: function(user, meal) {
+			this.model.set({
+				user: user,
+				meal: meal,
+				ACL: new Parse.ACL(user)
 			});
-
-			_.bindAll(this, 'update', 'feedback', 'preloader');
 		},
 
-		update: function(e) {
-			this.feedback({ status: 'start', msg: 'Enviando' });
+		setupMeal: _.once(function(meal) {
+			var ratedBy = meal.get('ratedBy');
+			ratedBy.push(LunchRating.data.user.attributes.username);
+			meal.set('ratedBy', ratedBy);
+		}),
 
+		update: function(e) {
 			var $trigger = $(e.currentTarget),
 				key = $trigger.attr('name'),
 				val = $trigger.val(),
 				checked = e.currentTarget.checked,
 				arr, obj = {};
+
+			obj[key] = val;
 
 			// Convert to Array
 			if (/\[]/.test(key)) {
@@ -210,6 +244,7 @@ LunchRating.view = {
 					val = [val];
 				}
 
+				obj = {};
 				obj[key] = val;
 			}
 
@@ -218,14 +253,23 @@ LunchRating.view = {
 				arr = key.split('.');
 				key = arr[0];
 
+				obj = {};
 				obj[key] = this.model.get(key) || {};
 				obj[key][arr[1]] = val;
 			}
 
 			this.model.set(obj);
-			this.model.update(this.feedback);
+			this.setupMeal(this.meal);
 
-			if (key == 'aceitacao') $('#questions')[val == 'sim' ? 'fadeIn' : 'fadeOut']();
+			if (key == 'aceitacao') {
+				if (val == 'sim') {
+					$('#questions').fadeIn();
+				}
+				else {
+					this.undelegateEvents();
+					LunchRating.view.completedBuilder();
+				}
+			}
 		},
 
 		feedback: function(settings) {
@@ -242,6 +286,23 @@ LunchRating.view = {
 
 		render: function() {
 			LunchRating.content.build(_.render('content/rating.html', LunchRating.data, true));
+		}
+	}),
+
+	completedBuilder: function() {
+		new LunchRating.view.completed();
+	},
+
+	completed: Parse.View.extend({
+		el: '.structure-content',
+
+		initialize: function() {
+			this.render();
+			this.$el.find('.ui-button').on('click', LunchRating.view.ratingBuilder);
+		},
+
+		render: function() {
+			LunchRating.content.build(_.render('content/completed.html', LunchRating.data, true));
 		}
 	})
 };

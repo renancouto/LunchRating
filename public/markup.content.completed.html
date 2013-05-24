@@ -1,0 +1,10 @@
+<div class="ui-type">
+	<h2 class="heading">Olá, <%= it.user.attributes.username %>!</h2>
+
+	<div class="ui-field-group spaced">
+		<h3 class="heading small dark"><%= it.returning ? 'Obrigado, você já avaliou o almoço de hoje.' : 'Obrigado por avaliar o almoço de hoje.' %></h3>
+		<% if (!it.returning) { %>
+		<!--<span class="ui-button light inline-middle small">Avalie novamente</span>-->
+		<% } %>
+	</div>
+</div>

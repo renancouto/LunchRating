@@ -1,6 +1,6 @@
-<% var user = it.user.attributes, meal = it.meal.attributes; %>
+<% var meal = it.meal.attributes; %>
 <div class="ui-type">
-	<h2 class="heading">Olá, <%= user.username %>!</h2>
+	<h2 class="heading">Olá, <%= it.user.attributes.username %>!</h2>
 
 	<div class="ui-field-group spaced">
 		<h3 class="heading small dark">Você almoçou na NBR hoje?</h3>
@@ -21,7 +21,7 @@
 	<div id="questions" class="hide">
 		<div class="ui-field-group spaced">
 			<h3 class="heading small dark">E como estava?</h3>
-			<%= _.render('asset.rating-form.select.html', { name: 'avaliacao.geral' }) %>
+			<%= _.render('asset.rating.select.html', { name: 'avaliacao.geral' }) %>
 		</div>
 
 		<p class="heading normal small dark spacer-top">O cardápio de hoje foi <strong><%= _.printArray(meal.items) %></strong>. Em relação aos itens, como você avalia?</p>
@@ -30,13 +30,13 @@
 			<% _.each(meal.items, function(item, index){ %>
 			<div class="ui-field-group spaced">
 				<h3 class="heading small dark"><%= item.toProperCase() %></h3>
-				<%= _.render('asset.rating-form.select.html', { name: 'avaliacao.' + item, untried: true }) %>
+				<%= _.render('asset.rating.select.html', { name: 'avaliacao.' + item, untried: true }) %>
 			</div>
 			<% }) %>
 		</div>
 
 		<div class="ui-field-group spaced">
-			<h3 class="heading small dark">Pra terminar, o que poderia melhorar?</h3>
+			<h3 class="heading small dark">E o que poderia melhorar?</h3>
 
 			<div>
 				<label class="ui-field chooser inline">
